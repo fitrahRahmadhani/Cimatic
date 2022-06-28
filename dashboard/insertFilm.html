@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Insert Film Page</title>
+    </head>
+    <body>
+        <form action="insertFilm.php" method="post" enctype="multipart/form-data">
+            <table>
+                <tr>
+                    <td>Judul : </td>
+                    <td><input type="text" name="judul"></td>
+                </tr>
+                <tr>
+                    <td>Genre : </td>
+                    <td><input type="text" name="genre"></td>
+                </tr>
+                <tr>
+                    <td>Rating age : </td>
+                    <td><input type="number" name="ratingAge"></td>
+                </tr>
+                <tr>
+                    <td>Tanggal rilis : </td>
+                    <td><input type="date" name="tglRilis"></td>
+                </tr>
+                <tr>
+                    <td>Harga sewa : </td>
+                    <td><input type="number" name="hrgSewa"></td>
+                </tr>
+                <tr>
+                    <td>Harga beli : </td>
+                    <td><input type="number" name="hrgBeli"></td>
+                </tr>
+                <tr>
+                    <td>Deskripsi : </td>
+                    <td>
+                        <textarea name="deskripsi" cols="30" rows="10"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Link : </td>
+                    <td><input type="url" name="linkFilm"></td>
+                </tr>
+                <tr>
+                    <td>Image poster : </td>
+                    <td><input type="file" name="img"></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" name="submit" value="add"></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>
