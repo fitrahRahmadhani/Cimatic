@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,9 +54,9 @@
             Genre
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="genre.php">Action</a></li>
-            <li><a class="dropdown-item" href="genre.php">Comedy</a></li>
-            <li><a class="dropdown-item" href="genre.php">Sci-fi</a></li>
+            <li><a class="dropdown-item" href="genre.php?genre=Laga">Laga</a></li>
+            <li><a class="dropdown-item" href="genre.php?genre=Komedi">Komedi</a></li>
+            <li><a class="dropdown-item" href="genre.php?genre=Horror">Horror</a></li>
             </ul>
           </li>
           <li class="nav-item underL">
@@ -71,11 +74,9 @@
             <div class="dropdown text-end dropdown-position">
               <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="https://github.com/mdo.png" alt="mdo" width="30" height="30" class="rounded-circle">
-                <span class="profil">Hai,</span><span class="account">Brodi</span>
+                <span class="profil">Hai,</span><span class="account"><?php echo $_SESSION["username"] ?></span>
               </a>
               <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Sign out</a></li>
               </ul>
             </div>
@@ -88,24 +89,33 @@
 
 
       <!-- Start Carousel -->
+  <?php
+    include "connection.php";
+    $id = $_GET['id'];
+    $query = "SELECT * FROM film WHERE id='$id'";
+    $result = mysqli_query($connect, $query);
+    $row = mysqli_fetch_array($result);
+    $genre = $row["genre"];
+    $id = $row["id"];
+  ?>
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
         <div class="carousel-custom">
           <div class="carosel_overlay"></div>
-            <img src="img/banner/doctorStrange.png" class="img_position ">
+            <img src="img/banner/<?php echo $row["img"]; ?>" class="img_position ">
             <div class="carosel_content  h-100 container position-relative">
               <div class="position-absolute top-50 start-0 translate-middle-y">
                 <div class="text-white preview-content-custom">
-                  <h1>Doctor Strange : In The Multiverse of Madness</h1>
+                  <h1><?php echo $row["judul"]; ?></h1>
                 </div>
                 <div class="btn-display-method btn-preview-position-custom">
-                  <a class="btn btn-custom-buy" href="buy.php" role="button">Beli Rp127.000</a>
-                  <a class="btn btn-custom-rent" href="rent.php" role="button">Sewa Rp28.000</a>
-                  <a class="btn btn-custom-wishlist" href="#" role="button">
-                    <span class="material-symbols-outlined md-36 material-position"> bookmark_add </span>
-                    <span class="mobile-overflow">Add Wishlist</span></a>
-              </div>
+                    <a class="btn btn-custom-buy" href="buy.php?id=<?php echo $row["id"];?>" role="button">Beli Rp<?php echo $row["hrgBeli"]; ?></a>
+                    <a class="btn btn-custom-rent" href="rent.php?id=<?php echo $row["id"];?>" role="button">Sewa Rp<?php echo $row["hrgSewa"]; ?></a>
+                    <a class="btn btn-custom-wishlist" href="addWishlist.php?id=<?php echo $row["id"];?>" role="button">
+                      <span class="material-symbols-outlined md-36 material-position"> bookmark_add </span>
+                      <span class="mobile-overflow">Add Wishlist</span></a>
+                </div>
             </div>
           </div>
         </div>
@@ -120,10 +130,8 @@
     <div class="col-md-8 row-transaction">
       <article>
         <h1 class="header mt-5">Tentang Film</h1>
-        <p>Dalam DOCTOR STRANGE IN THE MULTIVERSE OF MADNESS dari Marvel Studios, Marvel Cinematic Universe membuka Multi Jagat dan mendorong batasan lebih jauh. Perjalanan ke tempat asing bersama Doctor Strange (Benedict Cumberbatch), yang, dengan bantuan sekutu mistis baik lama maupun baru, harus memasuki realitas alternatif Multi Jagat yang membingungkan dan berbahaya untuk menghadapi musuh misterius. Juga dibintangi Elizabeth Olsen, Chiwetel Ejiofor, Benedict Wong, Xochitl Gomez, bersama Michael Stühlbarg dan Rachel McAdams, film aksi-petualangan supernatural yang mendebarkan ini disutradarai oleh Sam Raimi. Diproduksi oleh Kevin Feige, bersama Louis D'Esposito, Victoria Alonso, Eric Hauserman Carroll, Scott Derrickson dan Jamie Christopher sebagai produser eksekutif, skenarionya ditulis oleh Michael Waldron, berdasarkan komik Marvel karya Stan Lee dan Steve Ditko.
-        </p>
+        <p><?php echo $row["deskripsi"]; ?></p>
       </article>
-
     </div>
 
     <div class="col-md-4">
@@ -131,16 +139,30 @@
         <div class="p-5 mb-3">
           <h1 class="header">Rekomendasi</h1>
           <div class="movie-container">
-            <a href="" class="box-wrapper">
-            <div class="box">
-              <div class="box-img">
-                <img src="img/small/kknDesaPenari.jpg" alt="">
-              </div>
-              <h3 class="box-title">KKN di Desa Penari</h3>
-              <p>17+ | Horror</p>
-              <p class="price">Rp28.000</p>
-            </div>
-            </a>
+            <?php
+              $query = "select * from film";
+              $result = mysqli_query($connect, $query);
+              if(mysqli_num_rows($result) > 0){
+              while($row = mysqli_fetch_array($result)){
+              if($row["status"] == 2 && $row["genre"] == $genre && $row["id"] != $id){?>
+                <a href="preview.php?id=<?php echo $row["id"];?>" class="box-wrapper">
+                  <div class="box">
+                    <div class="box-img">
+                      <img src="img/small/<?php echo $row["poster"]; ?>" alt="">
+                    </div>
+                    <h3 class="box-title"><?php echo $row["judul"]; ?></h3>
+                    <p><?php echo $row["ratingAge"]; ?>+ | <?php echo $row["genre"]; ?></p>
+                    <p class="price">Rp<?php echo $row["hrgSewa"]; ?></p>
+                  </div>
+                </a>
+              <?php
+                    break;
+                      }
+                    }
+                  }else{
+                    echo "0 results";
+                }
+              ?>
           </div>
         </div>
       </div>

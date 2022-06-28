@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,9 +54,9 @@
             Genre
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="genre.php">Action</a></li>
-            <li><a class="dropdown-item" href="genre.php">Comedy</a></li>
-            <li><a class="dropdown-item" href="genre.php">Sci-fi</a></li>
+            <li><a class="dropdown-item" href="genre.php?genre=Laga">Laga</a></li>
+            <li><a class="dropdown-item" href="genre.php?genre=Komedi">Komedi</a></li>
+            <li><a class="dropdown-item" href="genre.php?genre=Horror">Horror</a></li>
             </ul>
           </li>
           <li class="nav-item underL">
@@ -71,11 +74,9 @@
             <div class="dropdown text-end dropdown-position">
               <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="https://github.com/mdo.png" alt="mdo" width="30" height="30" class="rounded-circle">
-                <span class="profil">Hai,</span><span class="account">Brodi</span>
+                <span class="profil">Hai,</span><span class="account"><?php echo $_SESSION["username"] ?></span>
               </a>
               <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Sign out</a></li>
               </ul>
             </div>

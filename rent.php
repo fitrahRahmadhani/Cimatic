@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,9 +53,9 @@
             Genre
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="genre.php">Action</a></li>
-            <li><a class="dropdown-item" href="genre.php">Comedy</a></li>
-            <li><a class="dropdown-item" href="genre.php">Sci-fi</a></li>
+            <li><a class="dropdown-item" href="genre.php?genre=Laga">Laga</a></li>
+            <li><a class="dropdown-item" href="genre.php?genre=Komedi">Komedi</a></li>
+            <li><a class="dropdown-item" href="genre.php?genre=Horror">Horror</a></li>
             </ul>
           </li>
           <li class="nav-item underL">
@@ -70,11 +73,9 @@
             <div class="dropdown text-end dropdown-position">
               <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="https://github.com/mdo.png" alt="mdo" width="30" height="30" class="rounded-circle">
-                <span class="profil">Hai,</span><span class="account">Brodi</span>
+                <span class="profil">Hai,</span><span class="account"><?php echo $_SESSION["username"] ?></span>
               </a>
               <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Sign out</a></li>
               </ul>
             </div>
@@ -86,18 +87,25 @@
       <!-- End Navbar -->
   
       <!-- Start Main -->
+  <?php
+      include "connection.php";
+      $id = $_GET['id'];
+      $query = "SELECT * FROM film WHERE id='$id'";
+      $result = mysqli_query($connect, $query);
+      $row = mysqli_fetch_array($result);
+  ?>
   <section class="rent mt-5 mb-5">
     <div class="container ">
       <div class="row row-transaction">
         <div class="col-lg-4 box-img-transaction">
-          <img src="img/small/doctorStrangeMultiverse.jpg" class="img-fluid img-transaction">
+          <img src="img/small/<?php echo $row["poster"]; ?>" class="img-fluid img-transaction">
         </div>
         <div class="col-lg-8 mt-3">
-          <h1>Doctor Strange : In The Multiverse of Madness</h1>
-          <p>Perjalanan ke tempat yang tidak diketahui bersama Doctor Strange, dengan bantuan sekutu mistis baik lama maupun baru, melintasi realitas alternatif Multiverse yang membingungkan dan berbahaya untuk menghadapi musuh baru yang misterius.</p>
+          <h1><?php echo $row["judul"]; ?></h1>
+          <p><?php echo $row["deskripsi"]; ?></p>
           <h1 class="mt-5 mb-3">Harga</h1>
           <div class="btn-display-method btn-display-transaction">
-            <a href="" class="btn btn-rent">Sewa Rp28.000</a>
+            <a href="<?php echo $row["link"]; ?>" class="btn btn-rent">Sewa Rp<?php echo $row["hrgBeli"]; ?></a>
             <a class="btn btn-addWish-transaction" href="#" role="button">
               <span class="material-symbols-outlined md-36 material-position"> bookmark_add </span>
               Add Wishlist</a>

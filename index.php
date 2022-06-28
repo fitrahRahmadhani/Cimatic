@@ -51,24 +51,24 @@
             Genre
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="#login">Action</a></li>
-            <li><a class="dropdown-item" href="#login">Comedy</a></li>
-            <li><a class="dropdown-item" href="#login">Sci-fi</a></li>
+            <li><a class="dropdown-item" href="dashboard/loginForm.php">Action</a></li>
+            <li><a class="dropdown-item" href="dashboard/loginForm.php">Comedy</a></li>
+            <li><a class="dropdown-item" href="dashboard/loginForm.php">Sci-fi</a></li>
             </ul>
           </li>
           <li class="nav-item underL">
-            <a class="nav-link nav-custom" href="#login">Library</a>
+            <a class="nav-link nav-custom" href="dashboard/loginForm.php">Library</a>
           </li>
           <li class="nav-item underL">
-            <a class="nav-link nav-custom" href="#login">Wishlist</a>
+            <a class="nav-link nav-custom" href="dashboard/loginForm.php">Wishlist</a>
           </li>
           <li>
-            <form class="d-flex nav-item" method="POST">
+            <form class="d-flex nav-item" method="POST" action="dashboard/loginForm.php">
               <input class="form-control me-2 searchBox" type="search" placeholder="Search" aria-label="Search" name="seachTitle">
             </form>
           </li>
           <li class="nav-item">
-            <a class="btn btn-custom-login dropdown-position" href="">Login</a>
+            <a class="btn btn-custom-login dropdown-position" href="dashboard/loginForm.php">Login</a>
           </li>
         </ul>
     </div>
@@ -80,86 +80,53 @@
       <!-- Start Carousel -->
   <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
-      <div class="carousel-item active">
-        <div class="carousel-custom">
-          <div class="carosel_overlay"></div>
-            <a href="#login">
-              <img src="img/carousel/theRoundup.png" class="img_position ">
-              <div class="carosel_content  h-100 container position-relative">
-                <div class="position-absolute top-50 start-0 translate-middle-y">
-                  <div class="text-white carousel-content-custom">
-                    <h1>The Roundup</h1>
-                    <p>Unit Kejahatan Besar Polisi Geumcheon diberi misi untuk memulangkan buronan yang melarikan diri ke Vietnam. Polisi garang Ma Seok Do dan Kapten Jeon Il Man secara intuitif menyadari bahwa ada yang salah dengan kesediaan tersangka untuk menyerahkan diri</p>
+    <?php
+      include "connection.php";
+      $query = "select * from film";
+      $result = mysqli_query($connect, $query);
+      if(mysqli_num_rows($result) > 0){
+      while($row = mysqli_fetch_array($result)){
+      if($row["id"] == 1 && $row["status"] == 1){?>
+          <div class="carousel-item active">
+            <div class="carousel-custom">
+              <div class="carosel_overlay"></div>
+                <a href="dashboard/loginForm.php">
+                  <img src="img/carousel/<?php echo $row["img"]; ?>" class="img_position ">
+                  <div class="carosel_content  h-100 container position-relative">
+                    <div class="position-absolute top-50 start-0 translate-middle-y">
+                      <div class="text-white carousel-content-custom">
+                        <h1><?php echo $row["judul"]; ?></h1>
+                        <p><?php echo $row["deskripsi"]; ?></p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </a>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <div class="carousel-custom">
-          <div class="carosel_overlay"></div>
-            <a href="#login">
-              <img src="img/carousel//rumahKuntilanak.png" class="img_position ">
-            <div class="carosel_content  h-100 container position-relative">
-              <div class="position-absolute top-50 start-0 translate-middle-y">
-                <div class="text-white carousel-content-custom">
-                  <h1>Rumah Kuntilanak</h1>
-                  <p>Melani, 26, hamil 2 bulan, mendatangi daerah perkebunan karet mencari suaminya. Suaminya menyebut tempat itu sebelum meninggalkan Melani. Suaminya hanya ijin beberapa hari untuk menemui seseorang yang akan memberikan dia pekerjaan</p>
-                </div>
+                </a>
+            </div>
+          </div>
+        <?php }else if ($row["status"] == 1){ ?>
+            <div class="carousel-item">
+              <div class="carousel-custom">
+                <div class="carosel_overlay"></div>
+                  <a href="dashboard/loginForm.php">
+                    <img src="img/carousel/<?php echo $row["img"]; ?>" class="img_position ">
+                  <div class="carosel_content  h-100 container position-relative">
+                    <div class="position-absolute top-50 start-0 translate-middle-y">
+                      <div class="text-white carousel-content-custom">
+                        <h1><?php echo $row["judul"]; ?></h1>
+                        <p><?php echo $row["deskripsi"]; ?></p>
+                      </div>
+                    </div>
+                  </div>
+                  </a>
               </div>
             </div>
-            </a>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <div class="carousel-custom">
-          <div class="carosel_overlay"></div>
-            <a href="#login">
-              <img src="img/carousel/ngeriNgeriSedap.png" class="img_position ">
-              <div class="carosel_content  h-100 container position-relative">
-                <div class="position-absolute top-50 start-0 translate-middle-y">
-                  <div class="text-white carousel-content-custom">
-                    <h1>Ngeri Ngeri Sedap</h1>
-                    <p>Pak Domu dan Mak Domu yang tinggal bersama sama, ingin sekali tiga anaknya: Domu, Gabe, dan Sahat yang sudah lama merantau pulang untuk menghadiri acara adat, tetapi mereka menolak pulang karena hubungan mereka tidak harmonis dengan Pak Domu</p>
-                  </div>
-                </div>
-              </div>
-            </a>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <div class="carousel-custom">
-          <div class="carosel_overlay"></div>
-            <a href="#login">
-              <img src="img/carousel/jurassicWorldDominion.png" class="img_position ">
-            <div class="carosel_content  h-100 container position-relative">
-              <div class="position-absolute top-50 start-0 translate-middle-y">
-                <div class="text-white carousel-content-custom">
-                  <h1>Jurassic World: Dominion</h1>
-                  <p>Empat tahun setelah kehancuran pulau Nublar, dinosaurus sekarang hidup dan berburu bersama manusia di seluruh dunia. Keseimbangan yang rapuh ini akan menentukan, apakah manusia akan tetap menjadi berada di puncak rantai makanan ketika berbagi wilayah dengan makhluk paling menakutkan dalam sejarah bumi</p>
-                </div>
-              </div>
-            </div>
-            </a>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <div class="carousel-custom">
-          <div class="carosel_overlay"></div>
-            <a href="#login">
-              <img src="img/carousel/gatotkaca.png" class="img_position ">
-              <div class="carosel_content  h-100 container position-relative">
-                <div class="position-absolute top-50 start-0 translate-middle-y">
-                  <div class="text-white carousel-content-custom">
-                    <h1>Satria Dewa Gatotkaca</h1>
-                    <p>Dunia dalam cerita ini sedikit berbeda ada manusia -manusia yang memiliki kemampuan jauh di atas rata-rata, diam - diam hidup di antara kita. Ada yang cerdas luar biasa, kuat tak terkira, tak pernah mengalami sakit, pendengaran setajam kelelawar, dan lain-lain. Dunia yang juga begitu mencekam, karena teror pembunuh berantai</p>
-                  </div>
-                </div>
-              </div>
-            </a>
-        </div>
-      </div>
+        <?php }
+              }
+          }
+          else{
+              echo "0 results";
+          }
+      ?>
     </div>
   </div>
       <!-- End Carousel -->
@@ -169,60 +136,28 @@
   <section class="movie-list container mb-5">
     <h1 class="header mt-5 mb-3">Trending Now</h1>
     <div class="movie-container">
-      <a href="#login" class="box-wrapper">
+    <?php
+      $query = "select * from film";
+      $result = mysqli_query($connect, $query);
+      if(mysqli_num_rows($result) > 0){
+      while($row = mysqli_fetch_array($result)){
+      if($row["status"] == 2){?>
+      <a href="dashboard/loginForm.php" class="box-wrapper">
         <div class="box">
           <div class="box-img">
-            <img src="img/small/doctorStrangeMultiverse.jpg" alt="">
+            <img src="img/small/<?php echo $row["poster"]; ?>" alt="">
           </div>
-          <h3 class="box-title">Doctor Strange : In The Multiverse of Madness</h3>
-          <p>15+ | Petualangan</p>
+          <h3 class="box-title"><?php echo $row["judul"]; ?></h3>
+          <p><?php echo $row["ratingAge"]; ?>+ | <?php echo $row["genre"]; ?></p>
         </div>
       </a>
-      <a href="#login" class="box-wrapper">
-      <div class="box">
-        <div class="box-img">
-          <img src="img/small/kknDesaPenari.jpg" alt="">
-        </div>
-        <h3 class="box-title">KKN di Desa Penari</h3>
-        <p>17+ | Horror</p>
-      </div>
-      </a>
-      <a href="#login" class="box-wrapper">
-      <div class="box">
-        <div class="box-img">
-          <img src="img/small/srimulat.jpg" alt="">
-        </div>
-        <h3 class="box-title">Srimulat: Hil yang Mustahal – Babak Pertama</h3>
-        <p>13+ | Komedi</p>
-      </div>
-      </a>
-      <a href="#login" class="box-wrapper">
-      <div class="box">
-        <div class="box-img">
-          <img src="img/small/kuntilanak3.jpg" alt="">
-        </div>
-        <h3 class="box-title">Kuntilanak 3</h3>
-        <p>17+ | Horror</p>
-      </div>
-      </a>
-      <a href="#login" class="box-wrapper">
-      <div class="box">
-        <div class="box-img">
-          <img src="img/small/topGunMaverick.jpg" alt="">
-        </div>
-        <h3 class="box-title">Top Gun: Maverick</h3>
-        <p>17+ | Petualangan</p>
-      </div>
-      </a>
-      <a href="#login" class="box-wrapper">
-      <div class="box">
-        <div class="box-img">
-          <img src="img/small/aditSopoJarwoTheMovie.jpg" alt="">
-        </div>
-        <h3 class="box-title">Adit Sopo Jarwo</h3>
-        <p>15+ | Petualangan</p>
-      </div>
-      </a>
+      <?php
+              }
+            }
+          }else{
+            echo "0 results";
+        }
+      ?>
     </div>
   </section>
       <!-- End Card -->
@@ -233,78 +168,31 @@
     <h1 class="header mt-5 mb-3">Cooming Soon</h1>
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
+      <?php
+        $query = "select * from film";
+        $result = mysqli_query($connect, $query);
+        if(mysqli_num_rows($result) > 0){
+        while($row = mysqli_fetch_array($result)){
+        if($row["status"] == 3){?>
           <div class="swiper-slide box">
             <div class="box-img">
-              <img src="img/small/minions2TheRiseOfGru.jpg" alt="">
+              <img src="img/small/<?php echo $row["poster"]; ?>" alt="">
             </div>
-            <h3 class="box-title">Minion: The Rise of Gru</h3>
-            <p>13+ | Komedi</p>
-            <p>Rilis: 01/07/2022</p>
-            <a class="addWish" href="#login" role="button">
+            <h3 class="box-title"><?php echo $row["judul"]; ?></h3>
+            <p><?php echo $row["ratingAge"]; ?>+ | <?php echo $row["genre"]; ?></p>
+            <p>Rilis: <?php echo $row["tglRilis"]; ?></p>
+            <a class="addWish" href="dashboard/loginForm.php" role="button">
               <p>Add Wishlist</p> 
               <span class="material-symbols-outlined md-36"> bookmark_add </span>
               </a>
           </div>
-        <div class="swiper-slide box">
-          <div class="box-img">
-            <img src="img/small/thorLoveandThunder.jpg" alt="">
-          </div>
-          <h3 class="box-title">Thor : Love and Thunder</h3>
-          <p>17+ | Laga</p>
-          <p>Rilis: 08/07/2022</p>
-          <a class="addWish" href="#login" role="button">
-            <p>Add Wishlist</p> 
-            <span class="material-symbols-outlined md-36"> bookmark_add </span>
-            </a>
-        </div>
-        <div class="swiper-slide box">
-          <div class="box-img">
-            <img src="img/small/ivanna.jpg" alt="">
-          </div>
-          <h3 class="box-title">Minion: The Rise of Gru</h3>
-          <p>17+ | Horror</p>
-          <p>Rilis: 14/07/2022</p>
-          <a class="addWish" href="#login" role="button">
-            <p>Add Wishlist</p> 
-            <span class="material-symbols-outlined md-36"> bookmark_add </span>
-            </a>
-        </div>
-        <div class="swiper-slide box">
-          <div class="box-img">
-            <img src="img/small/ghostWritter2.jpg" alt="">
-          </div>
-          <h3 class="box-title">The Ghost Writer 2</h3>
-          <p>17+ | Horro</p>
-          <p>Rilis: 01/07/2022</p>
-          <a class="addWish" href="#login" role="button">
-            <p>Add Wishlist</p> 
-            <span class="material-symbols-outlined md-36"> bookmark_add </span>
-            </a>
-        </div>
-        <div class="swiper-slide box">
-          <div class="box-img">
-            <img src="img/small/nope.jpg" alt="">
-          </div>
-          <h3 class="box-title">NOPE</h3>
-          <p>17+ | Horror</p>
-          <p>Rilis: 01/07/2022</p>
-          <a class="addWish" href="#login" role="button">
-            <p>Add Wishlist</p> 
-            <span class="material-symbols-outlined md-36"> bookmark_add </span>
-            </a>
-        </div>
-        <div class="swiper-slide box">
-          <div class="box-img">
-            <img src="img/small/devilOnTop.jpg" alt="">
-          </div>
-          <h3 class="box-title">Devil on Top</h3>
-          <p>13+ | Komedi</p>
-          <p>Rilis: 01/07/2022</p>
-          <a class="addWish" href="#login" role="button">
-            <p>Add Wishlist</p> 
-            <span class="material-symbols-outlined md-36"> bookmark_add </span>
-            </a>
-        </div>
+          <?php
+              }
+            }
+          }else{
+            echo "0 results";
+        }
+      ?>
       </div>
     </div>
   </section>

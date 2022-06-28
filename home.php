@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,9 +54,9 @@
             Genre
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="genre.php">Action</a></li>
-            <li><a class="dropdown-item" href="genre.php">Comedy</a></li>
-            <li><a class="dropdown-item" href="genre.php">Sci-fi</a></li>
+            <li><a class="dropdown-item" href="genre.php?genre=Laga">Laga</a></li>
+            <li><a class="dropdown-item" href="genre.php?genre=Komedi">Komedi</a></li>
+            <li><a class="dropdown-item" href="genre.php?genre=Horror">Horror</a></li>
             </ul>
           </li>
           <li class="nav-item underL">
@@ -71,11 +74,9 @@
             <div class="dropdown text-end dropdown-position">
               <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="https://github.com/mdo.png" alt="mdo" width="30" height="30" class="rounded-circle">
-                <span class="profil">Hai,</span><span class="account">Brodi</span>
+                <span class="profil">Hai,</span><span class="account"><?php echo $_SESSION["username"] ?></span>
               </a>
               <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Sign out</a></li>
               </ul>
             </div>
@@ -90,111 +91,63 @@
       <!-- Start Carousel -->
   <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
-      <div class="carousel-item active">
-        <div class="carousel-custom">
-          <div class="carosel_overlay"></div>
-            <img src="img/carousel/theRoundup.png" class="img_position ">
-            <div class="carosel_content  h-100 container position-relative">
-              <div class="position-absolute top-50 start-0 translate-middle-y">
-                <div class="text-white carousel-content-custom">
-                  <h1>The Roundup</h1>
-                  <p>Unit Kejahatan Besar Polisi Geumcheon diberi misi untuk memulangkan buronan yang melarikan diri ke Vietnam. Polisi garang Ma Seok Do dan Kapten Jeon Il Man secara intuitif menyadari bahwa ada yang salah dengan kesediaan tersangka untuk menyerahkan diri</p>
-                </div>
-                <div class="btn-display-method btn-position-custom">
-                  <a class="btn btn-custom-buy" href="#" role="button">Beli Rp127.000</a>
-                  <a class="btn btn-custom-rent" href="#" role="button">Sewa Rp28.000</a>
-                  <a class="btn btn-custom-wishlist" href="#" role="button">
-                    <span class="material-symbols-outlined md-36 material-position"> bookmark_add </span>
-                    <span class="mobile-overflow">Add Wishlist</span></a>
+      <?php
+        include "connection.php";
+        $query = "select * from film";
+        $result = mysqli_query($connect, $query);
+        if(mysqli_num_rows($result) > 0){
+        while($row = mysqli_fetch_array($result)){
+        if($row["id"] == 1 && $row["status"] == 1){?>
+        <div class="carousel-item active">
+          <div class="carousel-custom">
+            <div class="carosel_overlay"></div>
+              <img src="img/carousel/<?php echo $row["img"]; ?>" class="img_position ">
+              <div class="carosel_content  h-100 container position-relative">
+                <div class="position-absolute top-50 start-0 translate-middle-y">
+                  <div class="text-white carousel-content-custom">
+                    <h1><?php echo $row["judul"]; ?></h1>
+                    <p><?php echo $row["deskripsi"]; ?></p>
+                  </div>
+                  <div class="btn-display-method btn-position-custom">
+                    <a class="btn btn-custom-buy" href="buy.php?id=<?php echo $row["id"];?>" role="button">Beli Rp<?php echo $row["hrgBeli"]; ?></a>
+                    <a class="btn btn-custom-rent" href="rent.php?id=<?php echo $row["id"];?>" role="button">Sewa Rp<?php echo $row["hrgSewa"]; ?></a>
+                    <a class="btn btn-custom-wishlist" href="addWishlist.php?id=<?php echo $row["id"];?>" role="button">
+                      <span class="material-symbols-outlined md-36 material-position"> bookmark_add </span>
+                      <span class="mobile-overflow">Add Wishlist</span></a>
+                  </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="carousel-item">
-        <div class="carousel-custom">
-          <div class="carosel_overlay"></div>
-            <img src="img/carousel//rumahKuntilanak.png" class="img_position ">
-            <div class="carosel_content  h-100 container position-relative">
-              <div class="position-absolute top-50 start-0 translate-middle-y">
-                <div class="text-white carousel-content-custom">
-                  <h1>Rumah Kuntilanak</h1>
-                  <p>Melani, 26, hamil 2 bulan, mendatangi daerah perkebunan karet mencari suaminya. Suaminya menyebut tempat itu sebelum meninggalkan Melani. Suaminya hanya ijin beberapa hari untuk menemui seseorang yang akan memberikan dia pekerjaan</p>
-                </div>
-                <div class="btn-display-method btn-position-custom">
-                  <a class="btn btn-custom-buy" href="#" role="button">Beli Rp127.000</a>
-                  <a class="btn btn-custom-rent" href="#" role="button">Sewa Rp28.000</a>
-                  <a class="btn btn-custom-wishlist" href="#" role="button">
-                    <span class="material-symbols-outlined md-36 material-position"> bookmark_add </span>
-                    <span class="mobile-overflow">Add Wishlist</span></a>
+      <?php }else if ($row["status"] == 1){ ?>
+        <div class="carousel-item">
+          <div class="carousel-custom">
+            <div class="carosel_overlay"></div>
+              <img src="img/carousel/<?php echo $row["img"]; ?>" class="img_position ">
+              <div class="carosel_content  h-100 container position-relative">
+                <div class="position-absolute top-50 start-0 translate-middle-y">
+                  <div class="text-white carousel-content-custom">
+                    <h1><?php echo $row["judul"]; ?></h1>
+                    <p><?php echo $row["deskripsi"]; ?></p>
+                  </div>
+                  <div class="btn-display-method btn-position-custom">
+                    <a class="btn btn-custom-buy" href="buy.php?id=<?php echo $row["id"];?>" role="button">Beli Rp<?php echo $row["hrgBeli"]; ?></a>
+                    <a class="btn btn-custom-rent" href="rent.php?id=<?php echo $row["id"];?>" role="button">Sewa Rp<?php echo $row["hrgSewa"]; ?></a>
+                    <a class="btn btn-custom-wishlist" href="addWishlist.php?id=<?php echo $row["id"];?>" role="button">
+                      <span class="material-symbols-outlined md-36 material-position"> bookmark_add </span>
+                      <span class="mobile-overflow">Add Wishlist</span></a>
+                  </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="carousel-item">
-        <div class="carousel-custom">
-          <div class="carosel_overlay"></div>
-            <img src="img/carousel/ngeriNgeriSedap.png" class="img_position ">
-            <div class="carosel_content  h-100 container position-relative">
-              <div class="position-absolute top-50 start-0 translate-middle-y">
-                <div class="text-white carousel-content-custom">
-                  <h1>Ngeri Ngeri Sedap</h1>
-                  <p>Pak Domu dan Mak Domu yang tinggal bersama sama, ingin sekali tiga anaknya: Domu, Gabe, dan Sahat yang sudah lama merantau pulang untuk menghadiri acara adat, tetapi mereka menolak pulang karena hubungan mereka tidak harmonis dengan Pak Domu</p>
-                </div>
-                <div class="btn-display-method btn-position-custom">
-                  <a class="btn btn-custom-buy" href="#" role="button">Beli Rp127.000</a>
-                  <a class="btn btn-custom-rent" href="#" role="button">Sewa Rp28.000</a>
-                  <a class="btn btn-custom-wishlist" href="#" role="button">
-                    <span class="material-symbols-outlined md-36 material-position"> bookmark_add </span>
-                    <span class="mobile-overflow">Add Wishlist</span></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <div class="carousel-custom">
-          <div class="carosel_overlay"></div>
-            <img src="img/carousel/jurassicWorldDominion.png" class="img_position ">
-            <div class="carosel_content  h-100 container position-relative">
-              <div class="position-absolute top-50 start-0 translate-middle-y">
-                <div class="text-white carousel-content-custom">
-                  <h1>Jurassic World: Dominion</h1>
-                  <p>Empat tahun setelah kehancuran pulau Nublar, dinosaurus sekarang hidup dan berburu bersama manusia di seluruh dunia. Keseimbangan yang rapuh ini akan menentukan, apakah manusia akan tetap menjadi berada di puncak rantai makanan ketika berbagi wilayah dengan makhluk paling menakutkan dalam sejarah bumi</p>
-                </div>
-                <div class="btn-display-method btn-position-custom">
-                  <a class="btn btn-custom-buy" href="#" role="button">Beli Rp127.000</a>
-                  <a class="btn btn-custom-rent" href="#" role="button">Sewa Rp28.000</a>
-                  <a class="btn btn-custom-wishlist" href="#" role="button">
-                    <span class="material-symbols-outlined md-36 material-position"> bookmark_add </span>
-                    <span class="mobile-overflow">Add Wishlist</span></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <div class="carousel-custom">
-          <div class="carosel_overlay"></div>
-            <img src="img/carousel/gatotkaca.png" class="img_position ">
-            <div class="carosel_content  h-100 container position-relative">
-              <div class="position-absolute top-50 start-0 translate-middle-y">
-                <div class="text-white carousel-content-custom">
-                  <h1>Satria Dewa Gatotkaca</h1>
-                  <p>Dunia dalam cerita ini sedikit berbeda ada manusia -manusia yang memiliki kemampuan jauh di atas rata-rata, diam - diam hidup di antara kita. Ada yang cerdas luar biasa, kuat tak terkira, tak pernah mengalami sakit, pendengaran setajam kelelawar, dan lain-lain. Dunia yang juga begitu mencekam, karena teror pembunuh berantai</p>
-                </div>
-                <div class="btn-display-method btn-position-custom">
-                  <a class="btn btn-custom-buy" href="#" role="button">Beli Rp127.000</a>
-                  <a class="btn btn-custom-rent" href="#" role="button">Sewa Rp28.000</a>
-                  <a class="btn btn-custom-wishlist" href="#" role="button">
-                    <span class="material-symbols-outlined md-36 material-position"> bookmark_add </span>
-                    <span class="mobile-overflow">Add Wishlist</span></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <?php }
+              }
+          }
+          else{
+              echo "0 results";
+          }
+      ?>
     </div>
   </div>
       <!-- End Carousel -->
@@ -204,66 +157,29 @@
   <section class="movie-list container mb-5">
     <h1 class="header mt-5 mb-3">Trending Now</h1>
     <div class="movie-container">
-      <a href="preview.php" class="box-wrapper">
+    <?php
+      $query = "select * from film";
+      $result = mysqli_query($connect, $query);
+      if(mysqli_num_rows($result) > 0){
+      while($row = mysqli_fetch_array($result)){
+      if($row["status"] == 2){?>
+      <a href="preview.php?id=<?php echo $row["id"];?>" class="box-wrapper">
         <div class="box">
           <div class="box-img">
-            <img src="img/small/doctorStrangeMultiverse.jpg" alt="">
+            <img src="img/small/<?php echo $row["poster"]; ?>" alt="">
           </div>
-          <h3 class="box-title">Doctor Strange : In The Multiverse of Madness</h3>
-          <p>15+ | Petualangan</p>
-          <p class="price">Rp28.000</p>
+          <h3 class="box-title"><?php echo $row["judul"]; ?></h3>
+          <p><?php echo $row["ratingAge"]; ?>+ | <?php echo $row["genre"]; ?></p>
+          <p class="price">Rp<?php echo $row["hrgSewa"]; ?></p>
         </div>
       </a>
-      <a href="" class="box-wrapper">
-      <div class="box">
-        <div class="box-img">
-          <img src="img/small/kknDesaPenari.jpg" alt="">
-        </div>
-        <h3 class="box-title">KKN di Desa Penari</h3>
-        <p>17+ | Horror</p>
-        <p class="price">Rp28.000</p>
-      </div>
-      </a>
-      <a href="" class="box-wrapper">
-      <div class="box">
-        <div class="box-img">
-          <img src="img/small/srimulat.jpg" alt="">
-        </div>
-        <h3 class="box-title">Srimulat: Hil yang Mustahal – Babak Pertama</h3>
-        <p>13+ | Komedi</p>
-        <p class="price">Rp28.000</p>
-      </div>
-      </a>
-      <a href="" class="box-wrapper">
-      <div class="box">
-        <div class="box-img">
-          <img src="img/small/kuntilanak3.jpg" alt="">
-        </div>
-        <h3 class="box-title">Kuntilanak 3</h3>
-        <p>17+ | Horror</p>
-        <p class="price">Rp28.000</p>
-      </div>
-      </a>
-      <a href="" class="box-wrapper">
-      <div class="box">
-        <div class="box-img">
-          <img src="img/small/topGunMaverick.jpg" alt="">
-        </div>
-        <h3 class="box-title">Top Gun: Maverick</h3>
-        <p>17+ | Petualangan</p>
-        <p class="price">Rp28.000</p>
-      </div>
-      </a>
-      <a href="" class="box-wrapper">
-      <div class="box">
-        <div class="box-img">
-          <img src="img/small/aditSopoJarwoTheMovie.jpg" alt="">
-        </div>
-        <h3 class="box-title">Adit Sopo Jarwo</h3>
-        <p>15+ | Petualangan</p>
-        <p class="price">Rp28.000</p>
-      </div>
-      </a>
+      <?php
+              }
+            }
+          }else{
+            echo "0 results";
+        }
+      ?>
     </div>
   </section>
       <!-- End Card -->
@@ -274,78 +190,31 @@
     <h1 class="header mt-5 mb-3">Cooming Soon</h1>
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
+      <?php
+        $query = "select * from film";
+        $result = mysqli_query($connect, $query);
+        if(mysqli_num_rows($result) > 0){
+        while($row = mysqli_fetch_array($result)){
+        if($row["status"] == 3){?>
           <div class="swiper-slide box">
             <div class="box-img">
-              <img src="img/small/minions2TheRiseOfGru.jpg" alt="">
+              <img src="img/small/<?php echo $row["poster"]; ?>" alt="">
             </div>
-            <h3 class="box-title">Minion: The Rise of Gru</h3>
-            <p>13+ | Komedi</p>
-            <p>Rilis: 01/07/2022</p>
-            <a class="addWish" href="#" role="button">
+            <h3 class="box-title"><?php echo $row["judul"]; ?></h3>
+            <p><?php echo $row["ratingAge"]; ?>+ | <?php echo $row["genre"]; ?></p>
+            <p>Rilis: <?php echo $row["tglRilis"]; ?></p>
+            <a class="addWish" href="addWishlist.php?id=<?php echo $row["id"];?>" role="button">
               <p>Add Wishlist</p> 
               <span class="material-symbols-outlined md-36"> bookmark_add </span>
               </a>
           </div>
-        <div class="swiper-slide box">
-          <div class="box-img">
-            <img src="img/small/thorLoveandThunder.jpg" alt="">
-          </div>
-          <h3 class="box-title">Thor : Love and Thunder</h3>
-          <p>17+ | Laga</p>
-          <p>Rilis: 08/07/2022</p>
-          <a class="addWish" href="#" role="button">
-            <p>Add Wishlist</p> 
-            <span class="material-symbols-outlined md-36"> bookmark_add </span>
-            </a>
-        </div>
-        <div class="swiper-slide box">
-          <div class="box-img">
-            <img src="img/small/ivanna.jpg" alt="">
-          </div>
-          <h3 class="box-title">Minion: The Rise of Gru</h3>
-          <p>17+ | Horror</p>
-          <p>Rilis: 14/07/2022</p>
-          <a class="addWish" href="#" role="button">
-            <p>Add Wishlist</p> 
-            <span class="material-symbols-outlined md-36"> bookmark_add </span>
-            </a>
-        </div>
-        <div class="swiper-slide box">
-          <div class="box-img">
-            <img src="img/small/ghostWritter2.jpg" alt="">
-          </div>
-          <h3 class="box-title">The Ghost Writer 2</h3>
-          <p>17+ | Horro</p>
-          <p>Rilis: 01/07/2022</p>
-          <a class="addWish" href="#" role="button">
-            <p>Add Wishlist</p> 
-            <span class="material-symbols-outlined md-36"> bookmark_add </span>
-            </a>
-        </div>
-        <div class="swiper-slide box">
-          <div class="box-img">
-            <img src="img/small/nope.jpg" alt="">
-          </div>
-          <h3 class="box-title">NOPE</h3>
-          <p>17+ | Horror</p>
-          <p>Rilis: 01/07/2022</p>
-          <a class="addWish" href="#" role="button">
-            <p>Add Wishlist</p> 
-            <span class="material-symbols-outlined md-36"> bookmark_add </span>
-            </a>
-        </div>
-        <div class="swiper-slide box">
-          <div class="box-img">
-            <img src="img/small/devilOnTop.jpg" alt="">
-          </div>
-          <h3 class="box-title">Devil on Top</h3>
-          <p>13+ | Komedi</p>
-          <p>Rilis: 01/07/2022</p>
-          <a class="addWish" href="#" role="button">
-            <p>Add Wishlist</p> 
-            <span class="material-symbols-outlined md-36"> bookmark_add </span>
-            </a>
-        </div>
+          <?php
+              }
+            }
+          }else{
+            echo "0 results";
+        }
+      ?>
       </div>
     </div>
   </section>

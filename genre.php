@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,9 +54,9 @@
             Genre
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="genre.php">Action</a></li>
-            <li><a class="dropdown-item" href="genre.php">Comedy</a></li>
-            <li><a class="dropdown-item" href="genre.php">Sci-fi</a></li>
+            <li><a class="dropdown-item" href="genre.php?genre=Laga">Laga</a></li>
+            <li><a class="dropdown-item" href="genre.php?genre=Komedi">Komedi</a></li>
+            <li><a class="dropdown-item" href="genre.php?genre=Horror">Horror</a></li>
             </ul>
           </li>
           <li class="nav-item underL">
@@ -71,11 +74,9 @@
             <div class="dropdown text-end dropdown-position">
               <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="https://github.com/mdo.png" alt="mdo" width="30" height="30" class="rounded-circle">
-                <span class="profil">Hai,</span><span class="account">Brodi</span>
+                <span class="profil">Hai,</span><span class="account"><?php echo $_SESSION["username"] ?></span>
               </a>
               <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Sign out</a></li>
               </ul>
             </div>
@@ -87,71 +88,51 @@
       <!-- End Navbar -->
 
       <!-- Start Main -->
-      <section class="movie-list container mb-5">
-    <h1 class="header mt-5 mb-3">Genre X</h1>
-    <div class="movie-container">
-      <a href="preview.php" class="box-wrapper">
-        <div class="box">
-          <div class="box-img">
-            <img src="img/small/doctorStrangeMultiverse.jpg" alt="">
-          </div>
-          <h3 class="box-title">Doctor Strange : In The Multiverse of Madness</h3>
-          <p>15+ | Petualangan</p>
-          <p class="price">Rp28.000</p>
-        </div>
-      </a>
-      <a href="" class="box-wrapper">
-      <div class="box">
-        <div class="box-img">
-          <img src="img/small/kknDesaPenari.jpg" alt="">
-        </div>
-        <h3 class="box-title">KKN di Desa Penari</h3>
-        <p>17+ | Horror</p>
-        <p class="price">Rp28.000</p>
-      </div>
-      </a>
-      <a href="" class="box-wrapper">
-      <div class="box">
-        <div class="box-img">
-          <img src="img/small/srimulat.jpg" alt="">
-        </div>
-        <h3 class="box-title">Srimulat: Hil yang Mustahal – Babak Pertama</h3>
-        <p>13+ | Komedi</p>
-        <p class="price">Rp28.000</p>
-      </div>
-      </a>
-      <a href="" class="box-wrapper">
-      <div class="box">
-        <div class="box-img">
-          <img src="img/small/kuntilanak3.jpg" alt="">
-        </div>
-        <h3 class="box-title">Kuntilanak 3</h3>
-        <p>17+ | Horror</p>
-        <p class="price">Rp28.000</p>
-      </div>
-      </a>
-      <a href="" class="box-wrapper">
-      <div class="box">
-        <div class="box-img">
-          <img src="img/small/topGunMaverick.jpg" alt="">
-        </div>
-        <h3 class="box-title">Top Gun: Maverick</h3>
-        <p>17+ | Petualangan</p>
-        <p class="price">Rp28.000</p>
-      </div>
-      </a>
-      <a href="" class="box-wrapper">
-      <div class="box">
-        <div class="box-img">
-          <img src="img/small/aditSopoJarwoTheMovie.jpg" alt="">
-        </div>
-        <h3 class="box-title">Adit Sopo Jarwo</h3>
-        <p>15+ | Petualangan</p>
-        <p class="price">Rp28.000</p>
-      </div>
-      </a>
-    </div>
-  </section>
+<?php
+  include "connection.php";
+  $genre = $_GET["genre"];
+?>
+
+<section class="movie-list container mb-5">
+  <h1 class="header mt-5 mb-3">Genre </h1>
+  <div class="movie-container">
+
+<?php
+    $query = "select * from film WHERE genre = '$genre'";
+    $result = mysqli_query($connect, $query);
+
+    if(mysqli_num_rows($result) > 0){
+        while($row = mysqli_fetch_array($result)){
+          if($row["status"] == 3){?>
+            <div class="box-wrapper-custom box">
+              <div class="box-img">
+                <img src="img/small/<?php echo $row["poster"]; ?>" alt="">
+              </div>
+              <h3 class="box-title"><?php echo $row["judul"]; ?></h3>
+              <p><?php echo $row["ratingAge"]; ?>+ | <?php echo $row["genre"]; ?></p>
+              <p>Rilis: <?php echo $row["tglRilis"]; ?></p>
+            </div>
+          <?php }else{?>
+            <a href="preview.php?id=<?php echo $row["id"];?>" class="box-wrapper">
+            <div class="box">
+              <div class="box-img">
+                <img src="img/small/<?php echo $row["poster"]; ?>" alt="">
+              </div>
+              <h3 class="box-title"><?php echo $row["judul"]; ?></h3>
+              <p><?php echo $row["ratingAge"]; ?>+ | <?php echo $row["genre"]; ?></p>
+              <p class="price">Rp<?php echo $row["hrgSewa"]; ?></p>
+            </div>
+          </a>
+          <?php }
+
+            }
+        }
+        else{
+            echo "0 results";
+        }
+    ?>
+  </div>
+</section>
       <!-- End Main -->
 
       <!-- Start Footer -->
